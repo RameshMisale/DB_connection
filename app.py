@@ -8,10 +8,12 @@ from PIL import Image
 import pyodbc
 
 headers = {
-  "SERVER":st.secrets["server_name"]
-  "DATABASE":st.secrets["db_name"]',
-"UID":st.secrets["user_name"],
-"password":st.secrets["pwd"]
+  "SERVER": st.secrets["server_name"],
+  "DATABASE": st.secrets["db_name"],
+  "UID": st.secrets["user_name"],
+  "password": st.secrets["pwd"]
+}
+
 
 model = joblib.load(open('decision_tree_n.pkl', 'rb'))
 
