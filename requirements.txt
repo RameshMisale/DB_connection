@@ -1,4 +1,4 @@
-pyodbc
+pyodbc==5.1.0
 scikit-learn
 pillow
 numpy
