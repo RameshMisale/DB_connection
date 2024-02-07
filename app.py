@@ -7,22 +7,18 @@ import joblib
 from PIL import Image
 import pyodbc
 
+model = joblib.load(open('decision_tree_n.pkl', 'rb'))
+
 def perform_prediction(features, model):
-    features1 = features[model.feature_names_in_]
     #st.write(features1.select_dtypes(include='object').columns)
     #st.write(features1.dtypes)
 
     # Convert object columns to float or int
-    object_columns = features1.select_dtypes(include='object').columns
-    for col in object_columns:
-        features1[col] = pd.to_numeric(features1[col], errors='coerce')
 
-    # Handle missing values
-    # imputer = SimpleImputer(strategy='mean')
-    # features1 = pd.DataFrame(imputer.fit_transform(features1), columns=features1.columns)
 
-    probability_values = model.predict_proba(features1)
-    predicted_labels = model.predict(features1)
+
+    probability_values = model.predict_proba(features)
+    predicted_labels = model.predict(features)
 
     result_df = pd.DataFrame({
         'Predicted': predicted_labels,
@@ -66,6 +62,16 @@ if profile_id.strip():
     cursor = conn.cursor()
     query = f"SELECT * FROM base_profile WHERE profile_id = '{profile_id}'"
     df = pd.read_sql(query, conn)
+    df.fillna(0)
+    df = df[model.feature_names_in_]
+    # df.map({False:0,True:1}).fillna(0)
+    bit_columns = ['rush_flag','urgent_flag','national_flag','labpack_flag','isRecertified','mgp_flag','directship_flag','hybrid_flag','specialpricing_flag','intercompany_flag']
+    # df[bit_columns].map({False:0,True:1}).fillna(0)
+    df[bit_columns] = df[bit_columns].replace({False:0,True:1})
+    object_columns = df.select_dtypes(include='bool').columns
+    for col in object_columns:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
 
     if not df.empty: 
         st.write(f"Profile ID: {profile_id} found.")
@@ -81,7 +87,7 @@ if profile_id.strip():
         if st.button('Predict'):
             data = {feature: [value] for feature, value in user_inputs.items()}
             features_df = pd.DataFrame(data)
-            model = joblib.load(open('decision_tree_n.pkl', 'rb'))
+            
             result_df = perform_prediction(features_df, model)
 
             predicted_class = result_df['Predicted'].iloc[0]
@@ -103,4 +109,3 @@ if profile_id.strip():
 
 st.markdown("____________________________________________________________________________________")
 st.write("                                                                   \t*2024 Clean Earth")
-
