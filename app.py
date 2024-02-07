@@ -15,7 +15,7 @@ pwd = st.secrets['pwd']
 DRIVER_name = "ODBC Driver 17 for SQL Server"
 
 conn = pyodbc.connect(
-    f"DRIVER= {DRIVER_name} ;SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
+    f"DRIVER={DRIVER_name};SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
 )
 
 
