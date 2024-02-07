@@ -14,7 +14,7 @@ user_name = st.secrets['user_name']
 pwd = st.secrets['pwd']
 
 conn = pyodbc.connect(
-    f"DRIVER={DRIVER_name};SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
+    f"SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
 )
 
 
