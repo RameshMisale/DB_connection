@@ -8,7 +8,7 @@ from PIL import Image
 import pyodbc
 
 conn = pyodbc.connect(
-    f"DRIVER=your_driver;SERVER={st.secrets['server_name']};DATABASE={st.secrets['db_name']};UID={st.secrets['user_name']};PWD={st.secrets['pwd']}"
+    f"DRIVER={SQL Server};SERVER={st.secrets['server_name']};DATABASE={st.secrets['db_name']};UID={st.secrets['user_name']};PWD={st.secrets['pwd']}"
 )
 
 model = joblib.load(open('decision_tree_n.pkl', 'rb'))
