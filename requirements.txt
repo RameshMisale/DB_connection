@@ -10,3 +10,4 @@ joblib
 streamlit
 requests
 pyodbc
+Image
