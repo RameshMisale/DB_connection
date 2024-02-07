@@ -7,10 +7,10 @@ import joblib
 from PIL import Image
 import pyodbc
 
-server_name = 'server_name'
-db_name = 'db_name'
-user_name = 'user_name'
-pwd = 'pwd'
+server_name = st.secrets['server_name']
+db_name = st.secrets['db_name']
+user_name = st.secrets['user_name']
+pwd = st.secrets['pwd']
 conn = pyodbc.connect(
     f"DRIVER=SQL Server;SERVER={st.secrets['server_name']};DATABASE={st.secrets['db_name']};UID={st.secrets['user_name']};PWD={st.secrets['pwd']}"
 )
