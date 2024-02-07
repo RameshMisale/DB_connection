@@ -6,13 +6,15 @@ from sklearn.impute import SimpleImputer
 import joblib
 from PIL import Image
 import pyodbc
+
+SQL_Server_name =st.secrets['SQL Server']
 server_name = st.secrets['server_name']
 db_name = st.secrets['db_name']
 user_name = st.secrets['user_name']
 pwd = st.secrets['pwd']
 
 conn = pyodbc.connect(
-    f"DRIVER=SQL Server;SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
+    f"DRIVER={SQL_Server_name};SERVER={server_name};DATABASE={db_name};UID={user_name};PWD={pwd}"
 )
 
 
