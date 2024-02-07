@@ -7,6 +7,10 @@ import joblib
 from PIL import Image
 import pyodbc
 
+conn = pyodbc.connect(
+    f"DRIVER=your_driver;SERVER={st.secrets['server_name']};DATABASE={st.secrets['db_name']};UID={st.secrets['user_name']};PWD={st.secrets['pwd']}"
+)
+
 model = joblib.load(open('decision_tree_n.pkl', 'rb'))
 
 def perform_prediction(features, model):
@@ -58,9 +62,6 @@ st.markdown(
 profile_id = st.text_input(":mag: Enter Profile ID:", key="profile_id", value="")
 
 if profile_id.strip():
-    conn = pyodbc.connect(
-    f"DRIVER=your_driver;SERVER={st.secrets['server_name']};DATABASE={st.secrets['db_name']};UID={st.secrets['user_name']};PWD={st.secrets['pwd']}")
-
   
     cursor = conn.cursor()
     query = f"SELECT * FROM base_profile WHERE profile_id = '{profile_id}'"
