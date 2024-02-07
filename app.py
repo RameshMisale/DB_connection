@@ -58,21 +58,23 @@ st.markdown(
 profile_id = st.text_input(":mag: Enter Profile ID:", key="profile_id", value="")
 
 if profile_id.strip():
-        headers = {"SERVER": st.secrets["server_name"],"DATABASE": st.secrets["db_name"],"UID": st.secrets["user_name"],"password": st.secrets["pwd"] }
-      
-        cursor = conn.cursor()
-        query = f"SELECT * FROM base_profile WHERE profile_id = '{profile_id}'"
-        df = pd.read_sql(query, conn)
-        df.fillna(0)
-        df = df[model.feature_names_in_]
-        # df.map({False:0,True:1}).fillna(0)
-        bit_columns = ['rush_flag','urgent_flag','national_flag','labpack_flag','isRecertified','mgp_flag','directship_flag','hybrid_flag','specialpricing_flag','intercompany_flag']
-        # df[bit_columns].map({False:0,True:1}).fillna(0)
-        df[bit_columns] = df[bit_columns].replace({False:0,True:1})
-        object_columns = df.select_dtypes(include='bool').columns
+    headers = {
+        "SERVER": st.secrets["server_name"],
+        "DATABASE": st.secrets["db_name"],
+        "UID": st.secrets["user_name"],
+        "password": st.secrets["pwd"]
+    }
+  
+    cursor = conn.cursor()
+    query = f"SELECT * FROM base_profile WHERE profile_id = '{profile_id}'"
+    df = pd.read_sql(query, conn)
+    df.fillna(0)
+    df = df[model.feature_names_in_]
+    bit_columns = ['rush_flag', 'urgent_flag', 'national_flag', 'labpack_flag', 'isRecertified', 'mgp_flag', 'directship_flag', 'hybrid_flag', 'specialpricing_flag', 'intercompany_flag']
+    df[bit_columns] = df[bit_columns].replace({False: 0, True: 1})
+    object_columns = df.select_dtypes(include='bool').columns
     for col in object_columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')
-
 
     if not df.empty: 
         st.write(f"Profile ID: {profile_id} found.")
