@@ -1,3 +1,4 @@
+pyodbc
 scikit-learn
 pillow
 numpy
@@ -9,5 +10,4 @@ matplotlib
 joblib
 streamlit
 requests
-pyodbc
 Image
